@@ -131,7 +131,7 @@ def create_version_info(version_item, old_file):
             cmd = "./bsdiff " + "packages/" + file_name + " packages/" + package_name + " packages/" + diff_name + ".diff"
             print("diff_name: " + diff_name + ", cmd: " + cmd);
             os.system(cmd)
-            diff_file_name = diff_name + ".diff"
+            diff_file_name = "packages/" + diff_name + ".diff"
             #version_item["diffMd5"] = hashlib.md5(diff_file_name.encode()).hexdigest()
             version_item["diffMd5"] = create_md5("packages/" + diff_file_name)
             version_item["diffUrl"] = base_version_info["root_url"] + diff_name + ".diff"
