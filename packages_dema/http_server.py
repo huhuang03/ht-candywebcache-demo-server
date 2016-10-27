@@ -394,7 +394,7 @@ class Server(object):
     服务类
     """
     def __init__(self):
-        self.host = "127.0.0.1"
+        self.host = "192.168.32.108"
         self.port = 8080
         self.is_clear = False
 

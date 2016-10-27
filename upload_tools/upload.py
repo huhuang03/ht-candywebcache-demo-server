@@ -16,24 +16,25 @@ SERVER_OTHER_ERROR = 3            # 服务端有错误,不执行上传
 
 # 用于设置相关信息的config项
 config_items = {
-    "resID": "login",
-    "resVersion": "20160702",
-    "appID": "kaola",
-    "domain": "www.baidu.com,www.163.com",
-    "zipPath": "/Users/hzhehui/workspace/web-cache/NEYouFan/ht-candywebcache-demo-server/test_packages/login_20160702.zip"
+    "resID": "hello",
+    "resVersion": "201610272",
+    "appID": "hello",
+    "domain": "192.168.7.157:5000",
+    "zipPath": "/Users/yi/source/html/static_102702.zip",
+    "root_url": "http://localhost:8000/packages"
 }
 #################### 配置项
 
 
 base_version_info = {
-    "appVersion": "1.0.0",
+    "appVersion": "1.0.1",
     "appID": config_items["appID"],
     "resID": config_items["resID"],
     "resVersion": config_items["resVersion"],
     "domain": config_items["domain"],
     "zipPath": config_items["zipPath"],
     "fileServerPath": ".",
-    "root_url": "http://localhost:8000/packages/"
+    "root_url": "http://192.168.32.108:8000/packages/"
 }
 
 post_data = {
@@ -61,7 +62,7 @@ def upload_package_file(old_file):
     :param old_file:
     :return:
     """
-    url_path = "http://localhost:8080/api/upload_version"
+    url_path = "http://192.168.32.108:8080/api/upload_version"
     version_item = {}
     if create_version_info(version_item, old_file):
         post_json = []
@@ -128,10 +129,11 @@ def create_version_info(version_item, old_file):
             # 生成diff文件的格式: ./bsdiff packages/login_20160703.zip packages/login_20160803.zip packages/login.diff
             p, file_name = os.path.split(old_file)
             cmd = "./bsdiff " + "packages/" + file_name + " packages/" + package_name + " packages/" + diff_name + ".diff"
+            print("diff_name: " + diff_name + ", cmd: " + cmd);
             os.system(cmd)
             diff_file_name = diff_name + ".diff"
             #version_item["diffMd5"] = hashlib.md5(diff_file_name.encode()).hexdigest()
-            version_item["diffMd5"] = create_md5(diff_file_name)
+            version_item["diffMd5"] = create_md5("packages/" + diff_file_name)
             version_item["diffUrl"] = base_version_info["root_url"] + diff_name + ".diff"
         else:
             version_item["diffMd5"] = ""                # 首包,然后diff为空
@@ -147,7 +149,9 @@ def create_version_info(version_item, old_file):
         version_item["fullMd5"] = full_zip_md5
 
     except Exception as e:
-        print("create_version_info: " + str(e))
+        #print("create_version_info: " + str(e))
+        #print("create_version_info: " + sys.exc_info()[0])
+        raise e
         return False
 
     return True
@@ -160,7 +164,7 @@ def try_get_latest_version():
     :return:
     """
 
-    url_path = "http://localhost:8080/api/get_latest_version"
+    url_path = "http://192.168.32.108:8080/api/get_latest_version"
 
     code, old_file = SERVER_OTHER_ERROR, ""
 

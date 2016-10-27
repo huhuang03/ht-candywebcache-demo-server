@@ -1,0 +1,1 @@
+II(19,function(_,i,r,s,n,t,e){t.cl=_.S();e=t.cl.V(n.ch);e.Kg=function(){this.W();this.Yg=i.Dc(s.Tc("module-id-7"));this.dl=r.ih.bd({list:i.ic(this.Yg)})};e.Pg=function(t){this.W(t);this.dl.lh(this.eh(t))};n.rg("blog-tab",t.cl)},8,9,15,10,12);

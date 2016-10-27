@@ -1,0 +1,1 @@
+II(33,function(_,i,r,s,n,e,t){e.nl=_.S();t=e.nl.V(n.ch);t.Kg=function(){this.W();this.Yg=i.Dc(s.Tc("module-id-8"));this.dl=r.ih.bd({list:i.ic(this.Yg),oncheck:this.ol.q(this)})};t.Pg=function(t){this.W(t);this.dl.lh(this.eh(t))};t.ol=function(t){if("/setting/"==t.target)t.target="/setting/account/";t.matched=0==t.target.indexOf(t.source)};n.rg("setting-tab",e.nl)},8,9,15,10,12);

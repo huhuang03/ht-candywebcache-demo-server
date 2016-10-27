@@ -1,0 +1,1 @@
+II(23,function(_,e,r,i,t,n){t.tl=_.S();n=t.tl.V(i.ch);n.Kg=function(){this.Yg=e.Dc(r.Tc("module-id-l2"));var t=e.jc(this.Yg,"j-flag");this.Jg={box:t[0],clazz:t[1],tag:t[2],list:t[3],parent:t[3]}};i.rg("layout-blog-list",t.tl)},8,9,10,12);

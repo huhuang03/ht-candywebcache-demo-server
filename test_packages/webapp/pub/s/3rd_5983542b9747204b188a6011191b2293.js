@@ -1,0 +1,1 @@
+var a="aaaaaaaaaa";console.log("lib from a.js"),console.log("lib from b.js");var b="bbbbbbbbbbbbbb";
