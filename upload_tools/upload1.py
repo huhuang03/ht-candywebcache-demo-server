@@ -8,6 +8,7 @@ import hashlib
 import base64
 import pyDes
 from flask import Flask
+import flask
 
 SERVER_IS_LATEST = 0              # 服务端已经是最新的
 SERVER_NEED_UPLOAD = 1            # 服务端有这个资源,但是版本较旧,可以更新
@@ -236,30 +237,45 @@ app = Flask(__name__)
 
 @app.route("/upload", methods=['POST'])
 def upload_zip():
-    if 'file' not in requests.files:
-        flash("No file part")
+    if 'file' not in flask.request.files:
+        flask.flash("No file part")
         return "No file part"
-    file = request.files['file']
+    file = flask.request.files['file']
     if file.filename == '':
-        flash("No selected file")
+        flask.flash("No selected file")
         return "No selected file"
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        config_items["resID"] = request.form["resID"]
-        config_items["resVersion"] = request.form["resVersion"]
-        config_items["appID"] = request.form["appID"]
-        config_items["domain"] = request.form["domain"]
-        config_items[zipPath] = os.paht.join(app.config["UPLOAD_FOLDER"], filename)
+        filename = file.filename
+        fullFile = os.path.join(UPLOAD_FOLDER, filename)
+        createDirIfNotExit(fullFile)
+        file.save(fullFile)
+
+        config_items["resID"] = flask.request.form["resID"]
+        config_items["resVersion"] = flask.request.form["resVersion"]
+        config_items["appID"] = flask.request.form["appID"]
+        config_items["domain"] = flask.request.form["domain"]
+        config_items["zipPath"] = os.paht.join(app.config["UPLOAD_FOLDER"], filename)
         do_main()
         return "upload success"
-    pass
+
+
+def createDirIfNotExit(file):
+    if not os.path.exists(os.path.dirname(file)):
+        try:
+            os.makedirs(os.path.dirname(file))
+        except OSError as exc:
+            raise
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
     
 
 if __name__ == '__main__':
     # if get_zippath():
     #     pass
-    app.run(host="0.0.0.0", port="5001")
+    app.run(host="0.0.0.0", port=5001)
 
 
 
