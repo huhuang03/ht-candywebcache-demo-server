@@ -259,7 +259,7 @@ def upload_zip():
 if __name__ == '__main__':
     # if get_zippath():
     #     pass
-    app.run(host="104.194.88.15", port="5001")
+    app.run(host="0.0.0.0", port="5001")
 
 
 
