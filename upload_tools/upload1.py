@@ -254,7 +254,7 @@ def upload_zip():
         config_items["resVersion"] = flask.request.form["resVersion"]
         config_items["appID"] = flask.request.form["appID"]
         config_items["domain"] = flask.request.form["domain"]
-        config_items["zipPath"] = os.paht.join(app.config["UPLOAD_FOLDER"], filename)
+        config_items["zipPath"] = os.path.join(UPLOAD_FOLDER, filename)
         do_main()
         return "upload success"
 
