@@ -36,7 +36,7 @@ base_version_info = {
     "domain": config_items["domain"],
     "zipPath": config_items["zipPath"],
     "fileServerPath": ".",
-    "root_url": "http://192.168.32.108:8000/packages/"
+    "root_url": "http://127.0.0.1:8000/packages/"
 }
 
 post_data = {
@@ -64,7 +64,7 @@ def upload_package_file(old_file):
     :param old_file:
     :return:
     """
-    url_path = "http://192.168.32.108:8080/api/upload_version"
+    url_path = "http://127.0.0.1:8080/api/upload_version"
     version_item = {}
     if create_version_info(version_item, old_file):
         post_json = []
@@ -135,7 +135,7 @@ def create_version_info(version_item, old_file):
             os.system(cmd)
             diff_file_name = "packages/" + diff_name + ".diff"
             #version_item["diffMd5"] = hashlib.md5(diff_file_name.encode()).hexdigest()
-            version_item["diffMd5"] = create_md5("packages/" + diff_file_name)
+            version_item["diffMd5"] = create_md5(diff_file_name)
             version_item["diffUrl"] = base_version_info["root_url"] + diff_name + ".diff"
         else:
             version_item["diffMd5"] = ""                # 首包,然后diff为空
@@ -166,13 +166,14 @@ def try_get_latest_version():
     :return:
     """
 
-    url_path = "http://192.168.32.108:8080/api/get_latest_version"
+    url_path = "http://127.0.0.1:8080/api/get_latest_version"
 
     code, old_file = SERVER_OTHER_ERROR, ""
 
     try:
         result = do_post(url_path, post_data)
         result_json = json.loads(result)
+        print(result_json)
 
         if result_json["code"] != 200:
             code = SERVER_OTHER_ERROR
@@ -255,11 +256,20 @@ def upload_zip():
         config_items["appID"] = flask.request.form["appID"]
         config_items["domain"] = flask.request.form["domain"]
         config_items["zipPath"] = os.path.join(UPLOAD_FOLDER, filename)
-        post_data["appID"] = config_items["appID"]
-        post_data["resID"] = config_items["resID"]
+        refreshAllInfo()
         print(config_items)
         do_main()
         return "upload success"
+
+def refreshAllInfo():
+    post_data["appID"] = config_items["appID"]
+    post_data["resID"] = config_items["resID"]
+    base_version_info["appID"] = config_items["appID"]
+    base_version_info["resID"] = config_items["resID"]
+    base_version_info["resVersion"] = config_items["resVersion"]
+    base_version_info["domain"] = config_items["domain"]
+    base_version_info["zipPath"] = config_items["zipPath"]
+    
 
 
 def createDirIfNotExit(file):
