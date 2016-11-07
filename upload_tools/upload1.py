@@ -269,6 +269,7 @@ def refreshAllInfo():
     base_version_info["resVersion"] = config_items["resVersion"]
     base_version_info["domain"] = config_items["domain"]
     base_version_info["zipPath"] = config_items["zipPath"]
+    base_version_info["root_url"] = config_items["root_url"]
     
 
 
